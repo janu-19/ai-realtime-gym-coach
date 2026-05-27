@@ -1,0 +1,498 @@
+/* =========================================================
+   AI COACH - CLEAN LIGHT ATHLETIC DASHBOARD SYSTEM
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+
+:root {
+  --bg-primary: #F8FAFC;
+  --bg-secondary: #FFFFFF;
+  --bg-card: #FFFFFF;
+  --border-color: #E2E8F0;
+  
+  --text-primary: #0F172A;
+  --text-secondary: #334155;
+  --text-muted: #64748B;
+  
+  --accent-blue: #2563EB;
+  --accent-blue-hover: #1D4ED8;
+  --accent-blue-light: #EFF6FF;
+  --accent-glow: 0 0 12px rgba(37, 99, 235, 0.12);
+  
+  --border-radius-lg: 12px;
+  --border-radius-md: 8px;
+  --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* =========================================================
+   GLOBAL OVERRIDES & TYPOGRAPHY
+   ========================================================= */
+
+body, .stApp, [data-testid="stAppViewContainer"] {
+  background-color: var(--bg-primary) !important;
+  background-image: none !important;
+  color: var(--text-primary) !important;
+  font-family: 'Outfit', 'Inter', sans-serif !important;
+}
+
+/* Sidebar Custom Styling (Legible & Clean) */
+[data-testid="stSidebar"] {
+  background-color: var(--bg-secondary) !important;
+  border-right: 1px solid var(--border-color) !important;
+  box-shadow: 4px 0 16px rgba(15, 23, 42, 0.02) !important;
+}
+
+/* Ensure no text cut-offs inside the sidebar */
+[data-testid="stSidebar"] label,
+[data-testid="stSidebar"] p,
+[data-testid="stSidebar"] span,
+[data-testid="stSidebar"] div[data-testid="stMarkdownContainer"] {
+  white-space: normal !important;
+}
+
+/* Ensure typography is clean without overriding material symbols */
+[data-testid="stSidebar"] label p,
+[data-testid="stSidebar"] p,
+[data-testid="stSidebar"] caption {
+  font-family: 'Outfit', 'Inter', sans-serif !important;
+}
+
+/* Explicitly safeguard Google Material Symbol/Icon fonts from typography overrides */
+.material-icons,
+[class*="material-icons"],
+[data-testid="stIcon"] *,
+button[kind="header"] span,
+button[kind="header"] svg,
+[data-testid="collapsedControl"] span,
+[data-testid="collapsedControl"] svg {
+  font-family: "Material Icons", "Material Symbols Outlined", "Material Symbols Rounded", sans-serif !important;
+}
+
+/* Style the sidebar close/collapse button beautifully as a transparent circular icon */
+[data-testid="stSidebar"] button[kind="header"] {
+  background-color: transparent !important;
+  border: none !important;
+  color: var(--text-primary) !important;
+  box-shadow: none !important;
+  width: 36px !important;
+  height: 36px !important;
+  min-width: 36px !important;
+  border-radius: 50% !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: var(--transition-smooth) !important;
+}
+
+[data-testid="stSidebar"] button[kind="header"]:hover {
+  background-color: var(--bg-primary) !important;
+  color: var(--accent-blue) !important;
+}
+
+/* Style the main page collapse indicator beautifully */
+[data-testid="collapsedControl"] {
+  background-color: #FFFFFF !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: var(--border-radius-md) !important;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.05) !important;
+}
+
+[data-testid="stSidebar"] label p {
+  color: var(--text-muted) !important;
+  font-size: 0.8rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  margin-bottom: 0.25rem !important;
+}
+
+[data-testid="stSidebar"] p,
+[data-testid="stSidebar"] caption {
+  color: var(--text-secondary) !important;
+  font-size: 0.9rem !important;
+  font-weight: 500 !important;
+}
+
+.block-container {
+  padding: 40px 2rem !important;
+  max-width: 950px !important;
+}
+
+/* Base Typographic Contrast */
+p, label, li, code, [data-testid="stWidgetLabel"] p {
+  color: var(--text-secondary) !important;
+  font-family: 'Outfit', 'Inter', sans-serif !important;
+}
+
+h1, h2, h3, h4, h5, h6, [data-testid="stMarkdownContainer"] strong {
+  color: var(--text-primary) !important;
+  background: none !important;
+  -webkit-text-fill-color: initial !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.02em !important;
+  font-family: 'Outfit', 'Inter', sans-serif !important;
+}
+
+/* Scrollbar customization */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(15, 23, 42, 0.08);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-blue);
+}
+
+/* =========================================================
+   ATHLETIC METRIC WIDGETS
+   ========================================================= */
+
+[data-testid="stMetric"] {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: var(--border-radius-lg) !important;
+  padding: 1.25rem !important;
+  margin-bottom: 1rem !important;
+  box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.03) !important;
+  transition: var(--transition-smooth) !important;
+}
+
+[data-testid="stMetric"]:hover {
+  border-color: var(--accent-blue) !important;
+  box-shadow: var(--accent-glow) !important;
+}
+
+[data-testid="stMetricValue"] {
+  font-size: 2rem !important;
+  font-weight: 800 !important;
+  color: var(--accent-blue) !important;
+  background: none !important;
+  -webkit-text-fill-color: initial !important;
+}
+
+[data-testid="stMetricLabel"] p, [data-testid="stMetricLabel"] {
+  font-size: 0.85rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  color: var(--text-muted) !important;
+  font-weight: 600 !important;
+}
+
+/* =========================================================
+   BUTTONS (CLEAN ATHLETIC SOLID BLUE)
+   ========================================================= */
+
+.stButton button,
+.stDownloadButton button,
+[data-testid="stFormSubmitButton"] button {
+  background-color: var(--accent-blue) !important;
+  background-image: none !important;
+  color: #FFFFFF !important;
+  border: 1px solid var(--accent-blue) !important;
+  border-radius: var(--border-radius-md) !important;
+  font-weight: 600 !important;
+  font-size: 0.95rem !important;
+  padding: 0.6rem 1.5rem !important;
+  box-shadow: var(--accent-glow) !important;
+  transition: var(--transition-smooth) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  width: 100%;
+}
+
+.stButton button:hover,
+.stDownloadButton button:hover,
+[data-testid="stFormSubmitButton"] button:hover {
+  background-color: var(--accent-blue-hover) !important;
+  border-color: var(--accent-blue-hover) !important;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25) !important;
+  transform: translateY(-1px);
+  cursor: pointer;
+}
+
+/* Secondary Button Overrides inside Streamlit */
+[data-testid="stBaseButton-secondary"] {
+  background-color: #FFFFFF !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-color) !important;
+  box-shadow: none !important;
+}
+
+[data-testid="stBaseButton-secondary"]:hover {
+  background-color: var(--bg-primary) !important;
+  border-color: #CBD5E1 !important;
+  color: var(--text-primary) !important;
+  box-shadow: none !important;
+}
+
+/* =========================================================
+   INPUTS & DROPDOWN BOXES (LEGIBILITY OVERRIDES)
+   ========================================================= */
+
+/* Style standard text and number inputs cleanly, excluding search inputs inside selectboxes */
+[data-testid="stTextInput"] input,
+[data-testid="stNumberInput"] input,
+[data-testid="stTextArea"] textarea,
+.stTextInput input,
+.stNumberInput input {
+  background-color: #FFFFFF !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: var(--border-radius-md) !important;
+  color: var(--text-primary) !important;
+  font-family: 'Outfit', sans-serif !important;
+  font-size: 0.95rem !important;
+  padding: 0.5rem 0.75rem !important;
+  transition: var(--transition-smooth) !important;
+}
+
+/* Beautiful styling for select wrappers without breaking default Streamlit flex spacing */
+[data-baseweb="select"] > div {
+  background-color: #FFFFFF !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: var(--border-radius-md) !important;
+  color: var(--text-primary) !important;
+  font-family: 'Outfit', sans-serif !important;
+  font-size: 0.95rem !important;
+  transition: var(--transition-smooth) !important;
+  cursor: pointer !important;
+}
+
+/* Disable the search/type input box by making it invisible and zero-sized in the DOM, keeping only the clickable dropdown menu functional */
+[data-baseweb="select"] input {
+  position: absolute !important;
+  width: 0 !important;
+  height: 0 !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  caret-color: transparent !important;
+  color: transparent !important;
+}
+
+/* Force Dropdown Menus to be White with Charcoal Text */
+[data-baseweb="popover"],
+[data-baseweb="menu"],
+div[role="listbox"],
+div[role="option"],
+li[role="option"] {
+  background-color: #FFFFFF !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+[data-baseweb="popover"] *,
+[data-baseweb="menu"] *,
+li[role="option"] * {
+  color: var(--text-primary) !important;
+}
+
+/* Active select options */
+li[role="option"]:hover,
+li[role="option"][aria-selected="true"] {
+  background-color: var(--accent-blue-light) !important;
+  color: var(--accent-blue) !important;
+}
+
+/* Focus and input labels color */
+input:focus,
+textarea:focus,
+[data-baseweb="select"] > div:focus-within {
+  border-color: var(--accent-blue) !important;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1) !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-muted) !important;
+}
+
+/* =========================================================
+   FORMS & LAYOUT PANELS
+   ========================================================= */
+
+.stForm, [data-testid="stForm"] {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: var(--border-radius-lg) !important;
+  padding: 1.5rem !important;
+  margin-bottom: 1.25rem !important;
+  box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.02) !important;
+}
+
+/* Video stream bezel */
+.element-container iframe {
+  border-radius: var(--border-radius-lg) !important;
+  border: 1px solid var(--border-color) !important;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03) !important;
+}
+
+/* =========================================================
+   TABLES & DATAFRAMES
+   ========================================================= */
+
+table, .stTable, .stDataFrame {
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  width: 100% !important;
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: var(--border-radius-lg) !important;
+  overflow: hidden !important;
+  box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.01) !important;
+}
+
+th, td {
+  padding: 1rem 1.25rem !important;
+  font-family: 'Outfit', sans-serif !important;
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+th {
+  background-color: #F8FAFC !important;
+  color: var(--text-primary) !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  font-size: 0.8rem !important;
+  letter-spacing: 0.08em !important;
+}
+
+td {
+  color: var(--text-secondary) !important;
+  font-size: 0.9rem !important;
+}
+
+tr:hover td {
+  background-color: #F8FAFC !important;
+}
+
+/* =========================================================
+   SUCCESS / ALERT CHUTES
+   ========================================================= */
+
+.stAlert {
+  background: var(--accent-blue-light) !important;
+  border: 1px solid rgba(37, 99, 235, 0.15) !important;
+  border-radius: var(--border-radius-lg) !important;
+}
+
+.stAlert * {
+  color: var(--accent-blue) !important;
+  font-weight: 500 !important;
+}
+
+/* =========================================================
+   LANDING PAGE CLASSES (CLEAN & SIMPLE ALIGNMENTS)
+   ========================================================= */
+
+.lp-hero {
+  text-align: center !important;
+  padding: 3rem 1.5rem 1.5rem 1.5rem;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.lp-logo {
+  font-weight: 800;
+  font-size: 1.5rem;
+  letter-spacing: 0.05em;
+  color: var(--accent-blue) !important;
+  margin-bottom: 0.5rem;
+  text-align: center !important;
+  width: 100%;
+}
+
+.lp-title {
+  font-size: 2.8rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--text-primary) !important;
+  margin-bottom: 1rem;
+  text-align: center !important;
+  width: 100%;
+}
+
+.lp-title span {
+  color: var(--accent-blue) !important;
+}
+
+.lp-subtitle {
+  font-size: 1.05rem;
+  color: var(--text-muted) !important;
+  max-width: 650px;
+  margin: 0 auto !important;
+  line-height: 1.5;
+  text-align: center !important;
+  width: 100%;
+}
+
+.lp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 2.5rem;
+}
+
+.lp-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  padding: 1.5rem 1.25rem;
+  text-align: center;
+  box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.02) !important;
+}
+
+.lp-card-icon {
+  font-size: 2.2rem;
+  margin-bottom: 0.75rem;
+}
+
+.lp-card-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.lp-card-desc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.lp-badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  border-radius: 9999px;
+  margin-bottom: 0.5rem;
+}
+
+.lp-badge-lower {
+  background-color: var(--accent-blue-light);
+  color: var(--accent-blue);
+  border: 1px solid rgba(37, 99, 235, 0.2);
+}
+
+.lp-badge-upper {
+  background-color: #F1F5F9;
+  color: var(--text-secondary);
+  border: 1px solid #E2E8F0;
+}
+
+/* Hide Streamlit audio players so they play in background without taking space */
+[data-testid="stAudio"] {
+    display: none !important;
+}
