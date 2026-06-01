@@ -80,6 +80,40 @@ def render_live_metrics(context, feedback_placeholder, audio_placeholder):
         feedback_placeholder.empty()
 
 
+def get_ice_servers():
+    """
+    Retrieves ICE servers (STUN/TURN) for WebRTC connections.
+    Attempts to fetch dynamic TURN/STUN servers from Twilio if credentials are provided in 
+    environment variables or Streamlit secrets. Otherwise, falls back to a robust list of 
+    free public STUN servers.
+    """
+    account_sid = os.environ.get("TWILIO_ACCOUNT_SID")
+    auth_token = os.environ.get("TWILIO_AUTH_TOKEN")
+
+    if not account_sid or not auth_token:
+        if hasattr(st, "secrets"):
+            account_sid = st.secrets.get("TWILIO_ACCOUNT_SID", account_sid)
+            auth_token = st.secrets.get("TWILIO_AUTH_TOKEN", auth_token)
+
+    if account_sid and auth_token:
+        try:
+            from twilio.rest import Client
+            client = Client(account_sid, auth_token)
+            token = client.tokens.create()
+            if token and hasattr(token, "ice_servers"):
+                return token.ice_servers
+        except Exception as e:
+            st.warning(f"Failed to fetch Twilio ICE servers: {e}. Falling back to public STUN servers.")
+
+    return [
+        {"urls": ["stun:stun.l.google.com:19302"]},
+        {"urls": ["stun:stun1.l.google.com:19302"]},
+        {"urls": ["stun:stun2.l.google.com:19302"]},
+        {"urls": ["stun:stun3.l.google.com:19302"]},
+        {"urls": ["stun:stun4.l.google.com:19302"]},
+    ]
+
+
 def main():
     st.set_page_config(
         page_icon="🏋️‍♀️",
@@ -206,7 +240,7 @@ def main():
             key="exercise-analysis",
             mode=WebRtcMode.SENDRECV,
             video_processor_factory=VideoProcessorClass,
-            rtc_configuration={"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]},
+            rtc_configuration={"iceServers": get_ice_servers()},
             media_stream_constraints={
                 "video": {
                     "width": {"ideal": 640, "max": 640},
