@@ -24,7 +24,7 @@ def render_login_wall():
     # 2. Display the Stunning Futuristic Gym Coach Hero Illustration
     hero_img_path = os.path.join("static", "HERO.jpg")
     if os.path.exists(hero_img_path):
-        st.image(hero_img_path, use_container_width=True)
+        st.image(hero_img_path, width="stretch")
 
     st.markdown("<br><br>", unsafe_allow_html=True)
 
